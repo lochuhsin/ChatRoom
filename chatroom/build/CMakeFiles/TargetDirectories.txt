@@ -1,0 +1,6 @@
+/Users/albertlo/Desktop/chatroom/chatroom/build/CMakeFiles/my-project-lib.dir
+/Users/albertlo/Desktop/chatroom/chatroom/build/CMakeFiles/my-project-exe.dir
+/Users/albertlo/Desktop/chatroom/chatroom/build/CMakeFiles/my-project-test.dir
+/Users/albertlo/Desktop/chatroom/chatroom/build/CMakeFiles/test.dir
+/Users/albertlo/Desktop/chatroom/chatroom/build/CMakeFiles/edit_cache.dir
+/Users/albertlo/Desktop/chatroom/chatroom/build/CMakeFiles/rebuild_cache.dir
