@@ -10,6 +10,19 @@ See more:
 
 ## Overview
 
+### Project Modules
+- swagger
+- websocket
+- postgresSQL
+
+Installing methods: clone module from github
+- mkdir build
+- cd build
+- cmake ../
+- make install
+
+ps: PostgresSQL must have dev-tool
+
 ### Project layout
 
 ```
