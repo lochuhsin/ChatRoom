@@ -15,7 +15,7 @@ class AppComponent {
 private:
     oatpp::base::CommandLineArguments m_cmdArgs;
 public:
-    AppComponent(const oatpp::base::CommandLineArguments &cmdArgs)
+    explicit AppComponent(const oatpp::base::CommandLineArguments &cmdArgs)
             : m_cmdArgs(cmdArgs) {}
 
 public:
