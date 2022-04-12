@@ -1,7 +1,3 @@
-//
-// Created by albertlo on 2022/4/11.
-//
-
 #ifndef SWAGGERCOMPONENT_HPP
 #define SWAGGERCOMPONENT_HPP
 
@@ -32,7 +28,6 @@ public:
         return builder.build();
 
     }());
-
 
     /**
      *  Swagger-Ui Resources (<oatpp-examples>/lib/oatpp-swagger/res)
