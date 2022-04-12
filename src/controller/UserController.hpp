@@ -1,7 +1,3 @@
-//
-// Created by albertlo on 2022/4/12.
-//
-
 #ifndef CHATROOM_USERCONTROLLER_HPP
 #define CHATROOM_USERCONTROLLER_HPP
 
@@ -22,7 +18,7 @@ private:
     UserService m_userService;
 
 public:
-    static std::shared_ptr<UserController> createShared (OATPP_COMPONENT(std::shared_ptr<ObjectMapper>,objectMapper)) {
+    static std::shared_ptr<UserController> createShared(OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper)) {
         return std::make_shared<UserController>(objectMapper);
     }
 
@@ -43,13 +39,10 @@ public:
         return createDtoResponse(Status::CODE_200, m_userService.getUserById(userId));
     }
 
-
     ENDPOINT("DELETE", "users/{userId}", deleteUser,
              PATH(String, userId)) {
         return createDtoResponse(Status::CODE_200, m_userService.deleteUserById(userId));
     }
-
-
 };
 
 #endif //CHATROOM_USERCONTROLLER_HPP
