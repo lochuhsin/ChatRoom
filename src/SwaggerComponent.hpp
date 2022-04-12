@@ -2,9 +2,8 @@
 // Created by albertlo on 2022/4/11.
 //
 
-
-#ifndef SwaggerComponent_hpp
-#define SwaggerComponent_hpp
+#ifndef SWAGGERCOMPONENT_HPP
+#define SWAGGERCOMPONENT_HPP
 
 #include "dto/ConfigDto.hpp"
 
@@ -27,7 +26,7 @@ public:
         .setTitle("Example: Chatroom User Api")
         .setDescription("Service which stores and reads user info to/from postgresql database")
         .setVersion("1.0")
-        .setContactName("AAAAAAAlbertLo")
+        .setContactName("AlbertLo")
         .setContactUrl("https://google.com/")
         .addServer("http://localhost:" + oatpp::utils::conversion::int32ToStr(config->port), "server on localhost");
         return builder.build();
@@ -45,4 +44,4 @@ public:
 
 };
 
-#endif /* SwaggerComponent_hpp */
+#endif /* SWAGGERCOMPONENT_HPP */
