@@ -9,9 +9,9 @@
 class UserDto : public oatpp::DTO {
     DTO_INIT(UserDto, DTO)
 
-    DTO_FIELD(String, id);
+    DTO_FIELD(Int32, id);
 
-    DTO_FIELD(String, username, "username");
+    DTO_FIELD(String, name, "name");
 
     DTO_FIELD(String, password, "password");
 

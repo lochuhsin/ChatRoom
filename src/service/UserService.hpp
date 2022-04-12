@@ -15,8 +15,8 @@ class UserService{
 public:
   oatpp::Object<UserDto> createUser(const oatpp::Object<UserDto>& dto);
   oatpp::Object<UserDto> updateUser(const oatpp::Object<UserDto>& dto);
-  oatpp::Object<UserDto> getUserById(const oatpp::String& id);
-  oatpp::Object<StatusDto> deleteUserById(const oatpp::String& id);
+  oatpp::Object<UserDto> getUserByName(const oatpp::String& id);
+  oatpp::Object<StatusDto> deleteUserByName(const oatpp::String& id);
 
 private:
     typedef oatpp::web::protocol::http::Status Status;

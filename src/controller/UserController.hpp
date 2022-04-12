@@ -27,21 +27,21 @@ public:
         return createDtoResponse(Status::CODE_200, m_userService.createUser(userDto));
     }
 
-    ENDPOINT("PUT", "users/{userId}", putUser,
-             PATH(String, userId),
+    ENDPOINT("PUT", "users/{userName}", putUser,
+             PATH(String, userName),
              BODY_DTO(Object < UserDto > , userDto)) {
-        userDto->id = userId;
+        userDto->name = userName;
         return createDtoResponse(Status::CODE_200, m_userService.updateUser(userDto));
     }
 
-    ENDPOINT("GET", "users/{userId}", getUserById,
-             PATH(String, userId)) {
-        return createDtoResponse(Status::CODE_200, m_userService.getUserById(userId));
+    ENDPOINT("GET", "users/{userName}", getUserByName,
+             PATH(String, userName)) {
+        return createDtoResponse(Status::CODE_200, m_userService.getUserByName(userName));
     }
 
-    ENDPOINT("DELETE", "users/{userId}", deleteUser,
-             PATH(String, userId)) {
-        return createDtoResponse(Status::CODE_200, m_userService.deleteUserById(userId));
+    ENDPOINT("DELETE", "users/{userName}", deleteUser,
+             PATH(String, userName)) {
+        return createDtoResponse(Status::CODE_200, m_userService.deleteUserByName(userName));
     }
 };
 
