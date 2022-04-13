@@ -17,8 +17,8 @@ oatpp::Object<UserDto> UserService::updateUser(const oatpp::Object<UserDto> &dto
     return result[0];
 }
 
-oatpp::Object<UserDto> UserService::getUserById(const oatpp::String &id) {
-    auto dbResult = m_database->getUserById(id);
+oatpp::Object<UserDto> UserService::getUserByName(const oatpp::String &id) {
+    auto dbResult = m_database->getUserByName(id);
     OATPP_ASSERT_HTTP(dbResult->isSuccess(), Status::CODE_500, dbResult->getErrorMessage());
     OATPP_ASSERT_HTTP(dbResult->hasMoreToFetch(), Status::CODE_404, "User not found");
 
@@ -28,8 +28,8 @@ oatpp::Object<UserDto> UserService::getUserById(const oatpp::String &id) {
     return result[0];
 }
 
-oatpp::Object<StatusDto> UserService::deleteUserById(const oatpp::String& userId) {
-    auto dbResult = m_database->deleteUserById(userId);
+oatpp::Object<StatusDto> UserService::deleteUserByName(const oatpp::String& userId) {
+    auto dbResult = m_database->deleteUserByName(userId);
     OATPP_ASSERT_HTTP(dbResult->isSuccess(), Status::CODE_500, dbResult->getErrorMessage());
 
     auto status = StatusDto::createShared();

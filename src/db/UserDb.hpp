@@ -14,7 +14,7 @@ class UserDb : public oatpp::orm::DbClient {
 public:
     explicit UserDb(const std::shared_ptr<oatpp::orm::Executor> &executor) : oatpp::orm::DbClient(executor) {
         oatpp::orm::SchemaMigration migration(executor);
-        migration.addFile(1, DATABASE_MIGRATIONS "/001_init.sql");
+        migration.addFile(1, DATABASE_MIGRATIONS "/t_member.sql");
         migration.migrate();
 
         // Write log
@@ -23,40 +23,39 @@ public:
     }
 
     QUERY(createUser,
-          "INSERT INTO User"
-          "(id, username, password) VALUES "
-          "(uuid_generate_v4(), :user.username, :user.password)"
+          "INSERT INTO member"
+          "(name, password) VALUES "
+          "(:user.name, :user.password)"
           "RETURNING *;",
           PREPARE(true), // user prepared statement!
           PARAM(oatpp::Object<UserDto>, user))
 
 
     QUERY(updateUser,
-          "UPDATE User"
+          "UPDATE member "
           "SET "
-          " username=:user.username, "
-          " password=:user.password, "
+          " password=:user.password "
           "WHERE "
-          " id=:user.id "
+          " name=:user.name "
           "RETURNING *;",
           PREPARE(true), //<-- user prepared statement!
           PARAM(oatpp::Object<UserDto>, user))
 
-    QUERY(getUserById,
-          "SELECT * FROM User WHERE id=:id;",
+    QUERY(getUserByName,
+          "SELECT * FROM member WHERE name=:name;",
           PREPARE(true), //<-- user prepared statement!
-          PARAM(oatpp::String, id))
+          PARAM(oatpp::String, name))
 
     QUERY(getAllUsers,
-          "SELECT * FROM User LIMIT :limit OFFSET :offset;",
+          "SELECT * FROM member LIMIT :limit OFFSET :offset;",
           PREPARE(true), //<-- user prepared statement!
           PARAM(oatpp::UInt32, offset),
           PARAM(oatpp::UInt32, limit))
 
-    QUERY(deleteUserById,
-          "DELETE FROM User WHERE id=:id;",
+    QUERY(deleteUserByName,
+          "DELETE FROM member WHERE name=:name;",
           PREPARE(true), //<-- user prepared statement!
-          PARAM(oatpp::String, id))
+          PARAM(oatpp::String, name))
 
 };
 
