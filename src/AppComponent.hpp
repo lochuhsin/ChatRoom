@@ -46,14 +46,11 @@ public:
                 throw std::runtime_error("No configuration profile found. Server won't run.");
             }
             return profile;
-
         }
 
         OATPP_LOGE("AppComponent", "Can't load configuration file at path '%s'", configPath);
         throw std::runtime_error("[AppComponent]: Can't load configuration file");
-
     }());
-
 };
 
 #endif /* APPCOMPONENT_HPP */

@@ -9,5 +9,5 @@ CREATE TABLE IF NOT EXISTS public."member" (
     CONSTRAINT member_un UNIQUE ("name")
 );
 
-INSERT INTO IF NOT EXISTS public."member"
-(name, password) VALUES ('admin', 'admin');
+---INSERT INTO public."member"
+---(name, password) VALUES ('admin', 'admin');
