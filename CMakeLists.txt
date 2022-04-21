@@ -7,6 +7,8 @@ project(${project_name})
 set(CMAKE_CXX_STANDARD 20)
 
 add_library(${project_name}-lib
+        src/websocket/WSListener.cpp
+        src/websocket/WSListener.hpp
         src/AppComponent.hpp
         src/controller/UserController.hpp
         src/SwaggerComponent.hpp
@@ -26,11 +28,13 @@ add_library(${project_name}-lib
 find_package(oatpp 1.3.0 REQUIRED)
 find_package(oatpp-swagger      1.3.0 REQUIRED)
 find_package(oatpp-postgresql   1.3.0 REQUIRED)
+find_package(oatpp-websocket    1.3.0 REQUIRED)
 
 target_link_libraries(${project_name}-lib
         PUBLIC oatpp::oatpp
         PUBLIC oatpp::oatpp-swagger
         PUBLIC oatpp::oatpp-postgresql
+        PUBLIC oatpp::oatpp-websocket
 )
 
 add_definitions(
@@ -50,7 +54,7 @@ target_include_directories(${project_name}-lib PUBLIC src)
 
 add_executable(${project_name}-exe
         src/App.cpp
-        )
+        src/controller/SocketController.hpp)
 
 target_link_libraries(${project_name}-exe ${project_name}-lib)
 add_dependencies(${project_name}-exe ${project_name}-lib)

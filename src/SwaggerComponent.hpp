@@ -10,7 +10,6 @@
 
 class SwaggerComponent {
 public:
-
     /**
      *  General API docs info
      */
@@ -28,7 +27,6 @@ public:
         return builder.build();
 
     }());
-
     /**
      *  Swagger-Ui Resources (<oatpp-examples>/lib/oatpp-swagger/res)
      */
@@ -36,7 +34,6 @@ public:
         // Make sure to specify correct full path to oatpp-swagger/res folder !!!
         return oatpp::swagger::Resources::loadResources(OATPP_SWAGGER_RES_PATH);
     }());
-
 };
 
 #endif /* SWAGGERCOMPONENT_HPP */

@@ -1,13 +1,11 @@
 #ifndef APPCOMPONENT_HPP
 #define APPCOMPONENT_HPP
 
-
 #include "dto/ConfigDto.hpp"
-
 #include "oatpp/parser/json/mapping/ObjectMapper.hpp"
 #include "oatpp/core/macro/component.hpp"
-
 #include "oatpp/core/base/CommandLineArguments.hpp"
+#include "websocket/WSListener.hpp"
 
 #include <cstdlib>
 
@@ -50,6 +48,11 @@ public:
 
         OATPP_LOGE("AppComponent", "Can't load configuration file at path '%s'", configPath);
         throw std::runtime_error("[AppComponent]: Can't load configuration file");
+    }());
+    OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, websocketConnectionHandler)("websocket" /* qualifier */, [] {
+        auto connectionHandler = oatpp::websocket::ConnectionHandler::createShared();
+        connectionHandler->setSocketInstanceListener(std::make_shared<WSInstanceListener>());
+        return connectionHandler;
     }());
 };
 

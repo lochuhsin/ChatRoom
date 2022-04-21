@@ -3,9 +3,9 @@
 #include "./DatabaseComponent.hpp"
 #include "./SwaggerComponent.hpp"
 #include "./ServiceComponent.hpp"
+#include "./controller/SocketController.hpp"
 
 #include "oatpp/network/Server.hpp"
-
 #include "oatpp-swagger/Controller.hpp"
 
 #include <iostream>
@@ -23,10 +23,11 @@ void run(const oatpp::base::CommandLineArguments& args) {
     oatpp::web::server::api::Endpoints docEndpoints;
 
     auto userEndpoints = router->addController(UserController::createShared())->getEndpoints();
+    auto socketEndpoints = router->addController(SocketController::createShared())->getEndpoints();
     docEndpoints.append(userEndpoints);
+    docEndpoints.append(socketEndpoints);
     // bind controller to swagger controllers
     router->addController(oatpp::swagger::Controller::createShared(docEndpoints));
-
 
     auto connectionProvider = serviceComponent.serverConnectionProvider.getObject();
     auto connectionHandler = serviceComponent.serverConnectionHandler.getObject();
@@ -35,7 +36,7 @@ void run(const oatpp::base::CommandLineArguments& args) {
     /* Create server which takes provided TCP connections and passes them to HTTP connection handler */
 
     /* Print info about server port */
-    OATPP_LOGI("MyApp", "Server running on port %s", connectionProvider->getProperty("port").getData());
+    OATPP_LOGI("chatroom", "Server running on port %s", connectionProvider->getProperty("port").getData());
 
     /* Run server */
     server.run();
