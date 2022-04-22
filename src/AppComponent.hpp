@@ -5,7 +5,9 @@
 #include "oatpp/parser/json/mapping/ObjectMapper.hpp"
 #include "oatpp/core/macro/component.hpp"
 #include "oatpp/core/base/CommandLineArguments.hpp"
+#include "oatpp/network/tcp/server/ConnectionProvider.hpp"
 #include "websocket/WSListener.hpp"
+#include "websocket/Lobby.hpp"
 
 #include <cstdlib>
 
@@ -17,6 +19,13 @@ public:
             : m_cmdArgs(cmdArgs) {}
 
 public:
+    OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::async::Executor>, executor)([] {
+        return std::make_shared<oatpp::async::Executor>(
+                4 /* Data-Processing threads */,
+                1 /* I/O threads */,
+                1 /* Timer threads */
+        );
+    }());
 
     /**
      * This should be configured through config-server ex. Consul
@@ -54,6 +63,14 @@ public:
         connectionHandler->setSocketInstanceListener(std::make_shared<WSInstanceListener>());
         return connectionHandler;
     }());
+
+    OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, roomConnectionHandler)("room", [] {
+        OATPP_COMPONENT(std::shared_ptr<oatpp::async::Executor>, executor);
+        auto connectionHandler = oatpp::websocket::AsyncConnectionHandler::createShared(executor);
+        connectionHandler->setSocketInstanceListener(std::make_shared<Lobby>());
+        return connectionHandler;
+    }());
+
 };
 
 #endif /* APPCOMPONENT_HPP */

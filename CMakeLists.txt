@@ -26,7 +26,8 @@ add_library(${project_name}-lib
         src/service/TestService.cpp
         src/service/TestService.hpp
         src/dto/TestDto.hpp
-        src/controller/TestController.hpp)
+        src/controller/TestController.hpp
+        src/controller/RoomsController.hpp src/websocket/Lobby.cpp src/websocket/Lobby.hpp src/websocket/Peer.cpp src/websocket/Peer.hpp src/websocket/Room.cpp src/websocket/Room.hpp)
 
 ## link libs
 
@@ -58,8 +59,7 @@ target_include_directories(${project_name}-lib PUBLIC src)
 ## add executables
 
 add_executable(${project_name}-exe
-        src/App.cpp
-)
+        src/App.cpp)
 
 target_link_libraries(${project_name}-exe ${project_name}-lib)
 add_dependencies(${project_name}-exe ${project_name}-lib)
