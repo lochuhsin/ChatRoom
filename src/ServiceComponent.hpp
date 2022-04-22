@@ -8,7 +8,7 @@
 #include "dto/ConfigDto.hpp"
 #include "ErrorHandler.hpp"
 
-#include "oatpp/web/server/HttpConnectionHandler.hpp"
+#include "oatpp/web/server/AsyncHttpConnectionHandler.hpp"
 #include "oatpp/web/server/HttpRouter.hpp"
 #include "oatpp/network/tcp/server/ConnectionProvider.hpp"
 
@@ -49,8 +49,9 @@ public:
     OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, serverConnectionHandler)([] {
         OATPP_COMPONENT(std::shared_ptr<oatpp::web::server::HttpRouter>, router); // get Router component
         OATPP_COMPONENT(std::shared_ptr<oatpp::data::mapping::ObjectMapper>, objectMapper); // get ObjectMapper component
+        OATPP_COMPONENT(std::shared_ptr<oatpp::async::Executor>, executor); // get Async executor component
 
-        auto connectionHandler = oatpp::web::server::HttpConnectionHandler::createShared(router);
+        auto connectionHandler = oatpp::web::server::AsyncHttpConnectionHandler::createShared(router, executor);
         connectionHandler->setErrorHandler(std::make_shared<ErrorHandler>(objectMapper));
         return connectionHandler;
     }());

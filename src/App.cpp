@@ -28,8 +28,7 @@ void run(const oatpp::base::CommandLineArguments &args) {
     auto testEndpoints = router->addController(TestController::createShared())->getEndpoints();
     auto userEndpoints = router->addController(UserController::createShared())->getEndpoints();
     auto socketEndpoints = router->addController(SocketController::createShared())->getEndpoints();
-//    auto roomEndpoints = router->addController(RoomsController::createShared())->getEndpoints();
-    auto roomEndpoints = router->addController(std::make_shared<RoomsController>());
+   auto roomEndpoints = router->addController(RoomsController::createShared())->getEndpoints();
 
     docEndpoints.append(testEndpoints);
     docEndpoints.append(userEndpoints);
