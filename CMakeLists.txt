@@ -10,6 +10,7 @@ add_library(${project_name}-lib
         src/websocket/WSListener.cpp
         src/websocket/WSListener.hpp
         src/AppComponent.hpp
+        src/controller/SocketController.hpp src/db/TestDb.hpp
         src/controller/UserController.hpp
         src/SwaggerComponent.hpp
         src/dto/ConfigDto.hpp
@@ -21,7 +22,11 @@ add_library(${project_name}-lib
         src/dto/StatusDto.hpp
         src/ServiceComponent.hpp
         src/ErrorHandler.cpp
-        src/ErrorHandler.hpp)
+        src/ErrorHandler.hpp
+        src/service/TestService.cpp
+        src/service/TestService.hpp
+        src/dto/TestDto.hpp
+        src/controller/TestController.hpp)
 
 ## link libs
 
@@ -54,7 +59,7 @@ target_include_directories(${project_name}-lib PUBLIC src)
 
 add_executable(${project_name}-exe
         src/App.cpp
-        src/controller/SocketController.hpp)
+)
 
 target_link_libraries(${project_name}-exe ${project_name}-lib)
 add_dependencies(${project_name}-exe ${project_name}-lib)

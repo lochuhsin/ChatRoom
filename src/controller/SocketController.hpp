@@ -8,7 +8,6 @@
 #include "oatpp-websocket/Handshaker.hpp"
 #include "oatpp/web/server/api/ApiController.hpp"
 #include "oatpp/network/ConnectionHandler.hpp"
-
 #include "oatpp/core/macro/codegen.hpp"
 #include "oatpp/core/macro/component.hpp"
 
@@ -26,26 +25,15 @@ public:
             : oatpp::web::server::api::ApiController(objectMapper) {}
 
 public:
-    static std::shared_ptr<SocketController> createShared(OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper)) {
+    static std::shared_ptr<SocketController>
+    createShared(OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper)) {
         return std::make_shared<SocketController>(objectMapper);
     }
-    ENDPOINT("GET", "/websocket", root) {
 
-        const char *pageTemplate =
-                "<html lang='en'>"
-                "<head>"
-                "<meta charset=utf-8/>"
-                "</head>"
-                "<body>"
-                "<p>Hello WebSocket Server!</p>"
-                "<p>"
-                "<code>websocket endpoint is: localhost:8000/ws</code>"
-                "</p>"
-                "</body>"
-                "</html>";
-
+    ENDPOINT("GET", "websocket/test", websocketTest) {
+        const char *pageTemplate = "Hello ~ this socket is ok "
+                                   "websocket endpoint is: localhost:8000/ws";
         return createResponse(Status::CODE_200, pageTemplate);
-
     };
 
     ENDPOINT("GET", "ws", ws, REQUEST(std::shared_ptr<IncomingRequest>, request)) {

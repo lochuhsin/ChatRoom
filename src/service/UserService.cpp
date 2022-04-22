@@ -28,7 +28,7 @@ oatpp::Object<UserDto> UserService::getUserByName(const oatpp::String &name) {
     return result[0];
 }
 
-oatpp::Object<StatusDto> UserService::deleteUserByName(const oatpp::String& name) {
+oatpp::Object<StatusDto> UserService::deleteUserByName(const oatpp::String &name) {
     auto dbResult = m_database->deleteUserByName(name);
     OATPP_ASSERT_HTTP(dbResult->isSuccess(), Status::CODE_500, dbResult->getErrorMessage());
 

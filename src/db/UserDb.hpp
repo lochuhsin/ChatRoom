@@ -38,27 +38,30 @@ public:
           "WHERE "
           " name=:user.name "
           "RETURNING *;",
-          PREPARE(true), //<-- user prepared statement!
+          PREPARE(true),
           PARAM(oatpp::Object<UserDto>, user))
 
     QUERY(getUserByName,
           "SELECT * FROM member WHERE name=:name;",
-          PREPARE(true), //<-- user prepared statement!
+          PREPARE(true),
           PARAM(oatpp::String, name))
 
     QUERY(getAllUsers,
           "SELECT * FROM member LIMIT :limit OFFSET :offset;",
-          PREPARE(true), //<-- user prepared statement!
+          PREPARE(true),
           PARAM(oatpp::UInt32, offset),
           PARAM(oatpp::UInt32, limit))
 
     QUERY(deleteUserByName,
           "DELETE FROM member WHERE name=:name;",
-          PREPARE(true), //<-- user prepared statement!
+          PREPARE(true),
           PARAM(oatpp::String, name))
 
+    // Without using DTO objects, using raw params
+    QUERY(getUserCount,
+          "SELECT COUNT(id) FROM member")
 };
 
-#include OATPP_CODEGEN_END(DbClient)
 
+#include OATPP_CODEGEN_END(DbClient)
 #endif //CHATROOM_USERDB_HPP

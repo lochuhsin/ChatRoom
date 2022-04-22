@@ -2,7 +2,6 @@
 #define CHATROOM_USERCONTROLLER_HPP
 
 #include "service/UserService.hpp"
-
 #include "oatpp/web/server/api/ApiController.hpp"
 #include "oatpp/parser/json/mapping/ObjectMapper.hpp"
 #include "oatpp/core/macro/codegen.hpp"
@@ -11,9 +10,9 @@
 
 class UserController : public oatpp::web::server::api::ApiController {
 public:
-    explicit UserController(const std::shared_ptr<ObjectMapper> &objectMapper) : oatpp::web::server::api::ApiController(
+    explicit UserController(OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper))
+            : oatpp::web::server::api::ApiController(
             objectMapper) {}
-
 private:
     UserService m_userService;
 
