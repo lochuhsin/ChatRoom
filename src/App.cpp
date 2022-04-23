@@ -1,5 +1,4 @@
 #include "./controller/UserController.hpp"
-#include "./controller/SocketController.hpp"
 #include "./controller/TestController.hpp"
 #include "./controller/RoomsController.hpp"
 
@@ -10,7 +9,7 @@
 
 #include "oatpp/network/Server.hpp"
 #include "oatpp-swagger/Controller.hpp"
-
+#include "oatpp-swagger/AsyncController.hpp"
 #include <iostream>
 
 void run(const oatpp::base::CommandLineArguments &args) {
@@ -27,13 +26,11 @@ void run(const oatpp::base::CommandLineArguments &args) {
 
     auto testEndpoints = router->addController(TestController::createShared())->getEndpoints();
     auto userEndpoints = router->addController(UserController::createShared())->getEndpoints();
-    auto socketEndpoints = router->addController(SocketController::createShared())->getEndpoints();
-   auto roomEndpoints = router->addController(RoomsController::createShared())->getEndpoints();
+    auto roomEndpoints = router->addController(RoomsController::createShared())->getEndpoints();
 
     docEndpoints.append(testEndpoints);
     docEndpoints.append(userEndpoints);
-    docEndpoints.append(socketEndpoints);
-    //docEndpoints.append(roomEndpoints);
+    docEndpoints.append(roomEndpoints);
     // bind controller to swagger controllers
     router->addController(oatpp::swagger::Controller::createShared(docEndpoints));
 
@@ -41,8 +38,7 @@ void run(const oatpp::base::CommandLineArguments &args) {
     auto connectionHandler = serviceComponent.serverConnectionHandler.getObject();
     oatpp::network::Server server(connectionProvider,
                                   connectionHandler);
-    /* Create server which takes provided TCP connections and passes them to HTTP connection handler */
-    /* Print info about server port */
+
     OATPP_LOGI("chatroom", "Server running on port %s", connectionProvider->getProperty("port").getData())
 
     /* Run server */

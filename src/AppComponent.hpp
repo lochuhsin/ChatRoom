@@ -19,14 +19,6 @@ public:
             : m_cmdArgs(cmdArgs) {}
 
 public:
-    OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::async::Executor>, executor)([] {
-        return std::make_shared<oatpp::async::Executor>(
-                4 /* Data-Processing threads */,
-                1 /* I/O threads */,
-                1 /* Timer threads */
-        );
-    }());
-
     /**
      * This should be configured through config-server ex. Consul
      */
@@ -58,18 +50,8 @@ public:
         OATPP_LOGE("AppComponent", "Can't load configuration file at path '%s'", configPath);
         throw std::runtime_error("[AppComponent]: Can't load configuration file");
     }());
-    OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, websocketConnectionHandler)("websocket" /* qualifier */, [] {
-        auto connectionHandler = oatpp::websocket::ConnectionHandler::createShared();
-        connectionHandler->setSocketInstanceListener(std::make_shared<WSInstanceListener>());
-        return connectionHandler;
-    }());
 
-    OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, roomConnectionHandler)("room", [] {
-        OATPP_COMPONENT(std::shared_ptr<oatpp::async::Executor>, executor);
-        auto connectionHandler = oatpp::websocket::AsyncConnectionHandler::createShared(executor);
-        connectionHandler->setSocketInstanceListener(std::make_shared<Lobby>());
-        return connectionHandler;
-    }());
+
 
 };
 

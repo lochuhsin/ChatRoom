@@ -10,7 +10,7 @@ add_library(${project_name}-lib
         src/websocket/WSListener.cpp
         src/websocket/WSListener.hpp
         src/AppComponent.hpp
-        src/controller/SocketController.hpp src/db/TestDb.hpp
+        src/db/TestDb.hpp
         src/controller/UserController.hpp
         src/SwaggerComponent.hpp
         src/dto/ConfigDto.hpp

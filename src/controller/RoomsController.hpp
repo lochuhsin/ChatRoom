@@ -18,7 +18,7 @@ class RoomsController : public oatpp::web::server::api::ApiController {
 private:
     typedef RoomsController __ControllerType;
 private:
-    OATPP_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, roomConnectionHandler, "room");
+    OATPP_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, asyncWebSocketConnectionHandler, "asyncWebSocket");
 public:
     RoomsController(OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper))
             : oatpp::web::server::api::ApiController(objectMapper) {}
@@ -65,7 +65,7 @@ public:
 
             /* Websocket handshake */
             auto response = oatpp::websocket::Handshaker::serversideHandshake(request->getHeaders(),
-                                                                              controller->roomConnectionHandler);
+                                                                              controller->asyncWebSocketConnectionHandler);
 
             auto parameters = std::make_shared<oatpp::network::ConnectionHandler::ParameterMap>();
 
