@@ -76,9 +76,7 @@ public:
             response->setConnectionUpgradeParameters(parameters);
 
             return _return(response);
-
         }
-
     };
 };
 

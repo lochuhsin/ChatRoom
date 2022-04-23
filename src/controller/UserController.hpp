@@ -13,35 +13,80 @@ public:
     explicit UserController(OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper))
             : oatpp::web::server::api::ApiController(
             objectMapper) {}
+
 private:
-    UserService m_userService;
+    typedef UserController __ControllerType;
 
 public:
     static std::shared_ptr<UserController> createShared(OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper)) {
         return std::make_shared<UserController>(objectMapper);
     }
 
-    ENDPOINT("POST", "users", createUser,
-             BODY_DTO(Object < UserDto > , userDto)) {
-        return createDtoResponse(Status::CODE_200, m_userService.createUser(userDto));
-    }
+    ENDPOINT_ASYNC("POST", "users", createUser) {
+    ENDPOINT_ASYNC_INIT(createUser)
 
-    ENDPOINT("PUT", "users/{userName}", putUser,
-             PATH(String, userName),
-             BODY_DTO(Object < UserDto > , userDto)) {
-        userDto->name = userName;
-        return createDtoResponse(Status::CODE_200, m_userService.updateUser(userDto));
-    }
+        Action act() override {
+            return request->readBodyToDtoAsync<oatpp::Object<UserDto>>(controller->getDefaultObjectMapper())
+                    .callbackTo(&createUser::onBodyObtained);
+        }
 
-    ENDPOINT("GET", "users/{userName}", getUserByName,
-             PATH(String, userName)) {
-        return createDtoResponse(Status::CODE_200, m_userService.getUserByName(userName));
-    }
+        Action onBodyObtained(const oatpp::Object<UserDto> &dto) {
+            auto userService = UserService();
+            auto result = userService.createUser(dto);
+            return _return(controller->createResponse(Status::CODE_200));
+        }
+    };
 
-    ENDPOINT("DELETE", "users/{userName}", deleteUser,
-             PATH(String, userName)) {
-        return createDtoResponse(Status::CODE_200, m_userService.deleteUserByName(userName));
-    }
+    ENDPOINT_ASYNC("PUT", "users/updateUser", updateUser) {
+    ENDPOINT_ASYNC_INIT(updateUser)
+
+        Action act() override {
+            return request->readBodyToDtoAsync<oatpp::Object<UserDto>>(controller->getDefaultObjectMapper())
+                    .callbackTo(&updateUser::onBodyObtained);
+        }
+
+        Action onBodyObtained(const oatpp::Object<UserDto> &dto) {
+            auto userService = UserService();
+            auto result = userService.updateUser(dto);
+            return _return(controller->createResponse(Status::CODE_200));
+        }
+    };
+
+    ENDPOINT_ASYNC("PUT", "users/{username}", getUserByName) {
+    ENDPOINT_ASYNC_INIT(getUserByName)
+
+    public:
+        std::string userName;
+
+        Action act() override {
+            userName = request->getPathVariable("username");
+            return request->readBodyToStringAsync().callbackTo(&getUserByName::returnRespond);
+        }
+
+        Action returnRespond(const oatpp::String &body) {
+            auto userService = UserService();
+            auto obj = userService.getUserByName(userName);
+            return _return(controller->createDtoResponse(Status::CODE_200, obj));
+        }
+    };
+
+    ENDPOINT_ASYNC("DELETE", "users/{username}", deleteUserByName) {
+    ENDPOINT_ASYNC_INIT(deleteUserByName)
+
+    public:
+        std::string userName;
+
+        Action act() override {
+            userName = request->getPathVariable("username");
+            return request->readBodyToStringAsync().callbackTo(&deleteUserByName::returnRespond);
+        }
+
+        Action returnRespond(const oatpp::String &body) {
+            auto userService = UserService();
+            auto obj = userService.deleteUserByName(userName);
+            return _return(controller->createDtoResponse(Status::CODE_200, obj));
+        }
+    };
 };
 
 #endif //CHATROOM_USERCONTROLLER_HPP

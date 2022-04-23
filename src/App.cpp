@@ -32,7 +32,7 @@ void run(const oatpp::base::CommandLineArguments &args) {
     docEndpoints.append(userEndpoints);
     docEndpoints.append(roomEndpoints);
     // bind controller to swagger controllers
-    router->addController(oatpp::swagger::Controller::createShared(docEndpoints));
+    router->addController(oatpp::swagger::AsyncController::createShared(docEndpoints));
 
     auto connectionProvider = serviceComponent.serverConnectionProvider.getObject();
     auto connectionHandler = serviceComponent.serverConnectionHandler.getObject();

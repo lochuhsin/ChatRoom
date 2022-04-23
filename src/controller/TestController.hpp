@@ -14,19 +14,19 @@ public:
             : oatpp::web::server::api::ApiController(
             objectMapper) {}
 
-private:
-    TestService m_testService;
-
 public:
     static std::shared_ptr<TestController> createShared(OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper)) {
         return std::make_shared<TestController>(objectMapper);
     }
 
-    ENDPOINT("GET", "test", test) {
-        auto result = m_testService.getUserCount();
-        return createResponse(Status::CODE_200, std::to_string(result));
-    }
-
+    ENDPOINT_ASYNC("GET", "/test", test) {
+    ENDPOINT_ASYNC_INIT(test)
+        Action act() override {
+            auto testService = TestService();
+            auto result = testService.getUserCount();
+            return _return(controller->createResponse(Status::CODE_200, std::to_string(result)));
+        }
+    };
 };
 
 #endif //CHATROOM_TESTCONTROLLER_HPP
