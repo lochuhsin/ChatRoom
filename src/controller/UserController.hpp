@@ -87,6 +87,8 @@ public:
             return _return(controller->createDtoResponse(Status::CODE_200, obj));
         }
     };
+
+
 };
 
 #endif //CHATROOM_USERCONTROLLER_HPP

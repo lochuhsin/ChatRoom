@@ -27,6 +27,26 @@ public:
             return _return(controller->createResponse(Status::CODE_200, std::to_string(result)));
         }
     };
+
+    ENDPOINT_ASYNC("GET", "/test/paramtest/{username}", usertest) {
+    ENDPOINT_ASYNC_INIT(usertest)
+
+    public:
+        // since ENDPOINT_ASYNC is a local class
+        // new member variable  here
+        std::string m_username {};
+
+        Action act() override {
+            m_username = request->getPathVariable("username");  // get path name
+            auto objMapper = controller->getDefaultObjectMapper(); // get obj mapper
+            auto dto = request->readBodyToDto<oatpp::Object<UserDto>>(objMapper); // map body to userdto obj
+            return usertest::returnRespond(m_username); // simple way without using callback to function method
+            //return request->readBodyToStringAsync().callbackTo(&usertest::returnRespond); // using callback function method
+        }
+        Action returnRespond(const oatpp::String &body) {
+            return _return(controller->createResponse(Status::CODE_200, body));
+        }
+    };
 };
 
 #endif //CHATROOM_TESTCONTROLLER_HPP

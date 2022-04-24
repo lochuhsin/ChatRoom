@@ -30,7 +30,7 @@ public:
 
 public:
 
-    ENDPOINT_ASYNC("GET", "/", roomchat) {
+    ENDPOINT_ASYNC("GET", "/chat", roomchat) {
 
     ENDPOINT_ASYNC_INIT(roomchat)
 
